@@ -1,26 +1,22 @@
 # ============================================================================
-# SKILLS TEST CHEAT SHEET — Pet Clinic System (pet.py)
+# SKILLS TEST QUESTIONNAIRE: VETERINARY CLINICAL SYSTEM (pet.py)
 # ============================================================================
-# This is a MULTI-TABLE Flask app with 4 entities + reports/inquiry:
-#   Veterinarian, PetOwner, Pet, Consultation
+# EXAM SCENARIO:
+#   Veterinary hospital management covering Pet Owners, Animal Patients,
+#   Veterinarians, Clinical Consultations, and Multi-Criteria Inquiries.
 #
-# WHAT TO CHANGE DURING A SKILLS TEST:
-# 1. TABLE/ENTITY NAMES — Vet/Owner/Pet/Consultation → your exam entities
-# 2. COLUMN NAMES       — vetID/petName/consultDate etc. → your exam columns
-# 3. SECRET KEY         — change "dev-secret-key"
-# 4. FORM FIELD NAMES   — change request.form.get("fieldName") to match HTML
-# 5. ROUTE PATHS        — /vets, /owners, /pets, /consultations, /inquiry
-# 6. TEMPLATE NAMES     — vets.html, vet_form.html, etc.
-# 7. DATE/TIME FORMAT   — AM/PM 12h input → 24h storage "YYYY-MM-DD HH:MM"
-# 8. VALIDATION RULES   — birth date not in future, all fields required, etc.
-# 9. INQUIRY MODES      — 5 report types: by specialization/pet/owner/vet/date
-#
-# KEY PATTERNS:
-#   - Multi-page CRUD (list + add/edit form pages per entity)
-#   - Soft delete (logical delete via is_deleted flag)
-#   - Search with keyword filtering
-#   - 12-hour to 24-hour time conversion for consultations
-#   - Inquiry page with multiple report types
+# CANDIDATE TASKS & OBJECTIVES (WHAT NEEDS TO BE DONE):
+# 1. SOFT DELETION PRINCIPLE:
+#    - Every entity uses "is_deleted = 0" filtering. Deletion is logical (flag = 1).
+# 2. VETERINARIAN & OWNER MANAGEMENT (/vets, /owners):
+#    - Complete CRUD routes with unique ID validation.
+# 3. PET PATIENT REGISTRY (/pets):
+#    - Relate pets to registered owners. Ensure birthdate is NOT in the future.
+# 4. CLINICAL CONSULTATIONS (/consultations):
+#    - Parse 12-hour AM/PM input into standardized 24-hour "HH:MM" format.
+#    - Log diagnosis, treatment, attending vet, and pet ID.
+# 5. MULTI-CRITERIA INQUIRY (/inquiry):
+#    - Filter records by specialization, pet type, owner, and consultation date.
 # ============================================================================
 
 from datetime import date, datetime

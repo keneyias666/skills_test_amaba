@@ -1,19 +1,29 @@
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
 *.pyo
+
+# SQLite databases & temp files
 *.db
 *.sqlite3
+*.db-journal
 
-# Virtual environments
+# Virtual Environments
 venv/
 .venv/
 env/
+ENV/
+env.bak/
+venv.bak/
 
-# IDE
+# IDE & Editor settings
 .vscode/
 .idea/
+*.sublime-project
+*.sublime-workspace
 
-# OS
+# OS-generated files
+desktop.ini
 .DS_Store
 Thumbs.db

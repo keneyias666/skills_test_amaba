@@ -1,21 +1,19 @@
 # ============================================================================
-# SKILLS TEST CHEAT SHEET — Student ID System (main.py)
+# SKILLS TEST QUESTIONNAIRE: STUDENT ID & GRADING SYSTEM (main.py)
 # ============================================================================
-# This is a SINGLE-TABLE Flask CRUD app: students
-# Features: Add, Search, Edit, Delete students.
+# EXAM SCENARIO: Single-table student grading and identification system.
 #
-# WHAT TO CHANGE DURING A SKILLS TEST:
-# 1. TABLE NAME     — "students" → your exam's table name
-# 2. COLUMN NAMES   — student_id/name/course/score → your exam columns
-# 3. DB FILENAME    — change "students.db" in dbhelper.py
-# 4. FORM FIELDS    — request.form["name"] etc. must match HTML <input name="...">
-# 5. ROUTES         — /, /edit/<id>, /delete/<id>
-# 6. TEMPLATES      — index.html, edit.html
-# 7. SEARCH FIELDS  — change LIKE columns in dbhelper.search_student()
-# 8. DATE TRACKING  — date_added is auto-generated on insert
-#
-# PATTERN: Single-page listing with separate edit page.
-# DELETE uses GET (no confirmation) — change to POST if exam requires.
+# CANDIDATE TASKS & OBJECTIVES (WHAT NEEDS TO BE DONE):
+# 1. TABLE & DB SETUP: Initialize "students" table via dbhelper.create_table().
+# 2. HOME ROUTE (/):
+#    - POST: Extract student_id, name, course, score and add record.
+#    - GET: If ?search=keyword present, return filtered records; else all records.
+# 3. EDIT ROUTE (/edit/<id>):
+#    - GET: Populate edit form with existing student record.
+#    - POST: Update name, course, score and redirect to home.
+# 4. DELETE ROUTE (/delete/<id>):
+#    - Remove student record by primary key id.
+# 5. DUPLICATE HANDLING: Catch integrity errors on unique student_id.
 # ============================================================================
 
 from flask import Flask, render_template, request, redirect, url_for

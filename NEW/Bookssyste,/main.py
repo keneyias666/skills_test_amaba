@@ -1,20 +1,20 @@
 # ============================================================================
-# SKILLS TEST CHEAT SHEET — Book Inventory System (main.py)
+# SKILLS TEST QUESTIONNAIRE: BOOK INVENTORY SYSTEM (main.py)
 # ============================================================================
-# This is a SINGLE-TABLE Flask CRUD app: books
-# All operations (Add, Search, Update, Delete) happen on ONE page (index.html).
+# EXAM SCENARIO: Single-page action-dispatched book inventory and sales valuation.
 #
-# WHAT TO CHANGE DURING A SKILLS TEST:
-# 1. TABLE NAME    — "books" → your exam's table name
-# 2. COLUMN NAMES  — isbn/title/copyright/edition/price/quantity → your columns
-# 3. DB FILENAME   — change "books.db" in dbhelper.py
-# 4. ACTIONS       — "search", "add", "update", "delete" match hidden form field
-# 5. FORM FIELDS   — request.form["title"] etc. must match HTML <input name="...">
-# 6. TEMPLATE      — "index.html" can be renamed if exam requires
-# 7. TOTAL CALC    — get_all() returns (rows, total) where total = sum(price*qty)
-# 8. SEED DATA     — change the initial data in dbhelper.seed_data()
-#
-# PATTERN: Single-page app using POST actions to dispatch CRUD operations.
+# CANDIDATE TASKS & OBJECTIVES (WHAT NEEDS TO BE DONE):
+# 1. ACTION DISPATCH ROUTER (/):
+#    - Handle POST requests with hidden "action" parameter:
+#      * action == 'search': Query by ISBN, prefill form, set status message.
+#      * action == 'add': Insert new book, update status message.
+#      * action == 'update': Modify book details by ISBN.
+#      * action == 'delete': Remove book by ISBN.
+# 2. INVENTORY AGGREGATION & VALUATION:
+#    - Query all inventory rows and compute line-item and grand total valuation:
+#      Total Value = sum(price * quantity)
+# 3. SEEDING & STARTUP:
+#    - Execute dbhelper.create_table() and dbhelper.seed_data() on server startup.
 # ============================================================================
 
 from flask import Flask, render_template, request

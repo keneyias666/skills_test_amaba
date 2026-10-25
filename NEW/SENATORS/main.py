@@ -1,27 +1,24 @@
 # ============================================================================
-# SKILLS TEST CHEAT SHEET — Election/Voting System (main.py)
+# SKILLS TEST QUESTIONNAIRE: NATIONAL VOTING SYSTEM (main.py)
 # ============================================================================
-# This is a MULTI-TABLE Flask app with LOGIN & SESSION:
-#   Positions → Candidates → Voters → Votes
+# EXAM SCENARIO:
+#   Automated multi-position digital voting platform with seat quota enforcement,
+#   voter authentication, anti-duplicate voting, and real-time tabulation.
 #
-# WHAT TO CHANGE DURING A SKILLS TEST:
-# 1. TABLE NAMES    — Positions/Candidates/Voters/Votes → your exam tables
-# 2. COLUMN NAMES   — posName/candFName/voterID etc. → your exam columns
-# 3. SECRET KEY     — change "philippine-national-election-local"
-# 4. DB FILENAME    — change "Election.db" in dbhelper.py
-# 5. SCHEMA FILE    — change "schema.sql" if exam requires different setup
-# 6. STATUS VALUES  — "active"/"inactive" can be changed to match exam
-# 7. LOGIN FIELDS   — voterID + voterPass → your exam's login fields
-# 8. VOTING LOGIC   — multi-select checkboxes per position, seat limits
-# 9. ROUTES         — /positions, /candidates, /voters, /vote, /results, /winners
-# 10. TEMPLATES     — 12 HTML files in templates/ folder
-#
-# KEY PATTERNS IN THIS APP:
-#   - Multi-page CRUD (separate add/edit/list pages per entity)
-#   - Deactivate (soft delete) instead of hard delete
-#   - Login with session (session["voterID"])
-#   - Ballot with seat-count validation
-#   - Results with vote percentages and winner determination
+# CANDIDATE TASKS & OBJECTIVES (WHAT NEEDS TO BE DONE):
+# 1. POSITION MANAGEMENT (/positions):
+#    - Define positions with seat counts (posSeats >= 1).
+# 2. CANDIDATE MANAGEMENT (/candidates):
+#    - Associate candidates with positions, implement soft deactivation.
+# 3. VOTER AUTHENTICATION (/login, /logout):
+#    - Verify voterID and password, store session["voterID"].
+# 4. DIGITAL BALLOT (/vote):
+#    - Validate that voter has not previously voted (hasVoted == 0).
+#    - Validate that candidate selections per position do NOT exceed posSeats.
+#    - Atomic transaction: insert votes into Votes, set hasVoted = 1 on Voters.
+# 5. TABULATION & WINNERS (/results, /winners):
+#    - Calculate vote counts and percentage of votes per position.
+#    - Rank and proclaim top N candidates where N = posSeats.
 # ============================================================================
 
 import os

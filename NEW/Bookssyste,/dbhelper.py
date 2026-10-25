@@ -1,18 +1,23 @@
 # ============================================================================
-# SKILLS TEST CHEAT SHEET — Book Inventory Database Helper (dbhelper.py)
+# SKILLS TEST QUESTIONNAIRE: BOOK INVENTORY DATABASE HELPER (dbhelper.py)
 # ============================================================================
-# This file handles ALL database operations for the Books system.
-# Each function = one SQL operation. Copy and rename for new tables.
+# EXAM SCENARIO: Single-table SQLite database operations for book inventory.
 #
-# WHAT TO CHANGE DURING A SKILLS TEST:
-# 1. DB_NAME       — change "books.db" to your exam's database filename
-# 2. TABLE NAME    — change "books" in every SQL statement
-# 3. COLUMN NAMES  — change isbn/title/copyright/edition/price/quantity
-# 4. COLUMN TYPES  — INTEGER, TEXT, REAL — adjust to match exam schema
-# 5. PRIMARY KEY   — "isbn INTEGER PRIMARY KEY" can be AUTOINCREMENT if needed
-# 6. SEED DATA     — change the sample rows in seed_data()
-# 7. TOTAL FORMULA — change "price * quantity" in get_all() if exam differs
-# 8. VALIDATION    — add field checks in update_book() as exam requires
+# CANDIDATE TASKS & OBJECTIVES (WHAT NEEDS TO BE DONE):
+# 1. DATABASE SCHEMA:
+#    - Table: "books"
+#    - Columns: isbn (INTEGER PRIMARY KEY), title (TEXT), copyright (TEXT),
+#      edition (TEXT), price (REAL), quantity (INTEGER).
+# 2. REQUIRED FUNCTIONS:
+#    - connect(): Establish SQLite connection.
+#    - create_table(): Create "books" table if not exists.
+#    - seed_data(): Populate baseline book records if table is empty.
+#    - get_all(): Retrieve all books, compute item total (price * quantity),
+#      and grand total inventory valuation.
+#    - get_book(isbn): Retrieve a single book record by ISBN.
+#    - add_book(...): Insert a new book record.
+#    - update_book(...): Modify existing book attributes by ISBN.
+#    - delete_book(isbn): Delete book record by ISBN.
 # ============================================================================
 
 import sqlite3

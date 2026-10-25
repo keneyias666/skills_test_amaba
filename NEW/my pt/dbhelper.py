@@ -1,23 +1,24 @@
 # ============================================================================
-# SKILLS TEST CHEAT SHEET — Pet Clinic Database Helper (dbhelper.py)
+# SKILLS TEST QUESTIONNAIRE: CLINICAL DATABASE OPERATIONS (dbhelper.py)
 # ============================================================================
-# All database operations for the Pet Clinic system.
-# Tables: Veterinarian, PetOwner, Pet, Consultation
+# EXAM SCENARIO: Database CRUD and multi-criteria reporting for veterinary care.
 #
-# WHAT TO CHANGE DURING A SKILLS TEST:
-# 1. TABLE NAMES    — change Veterinarian/PetOwner/Pet/Consultation in SQL
-# 2. COLUMN NAMES   — change vetID/petOwnerFName/petName etc. in SQL
-# 3. SOFT DELETE    — "is_deleted = 0" filter on every query (WHERE is_deleted = 0)
-#                     Remove if exam uses hard delete (DELETE FROM)
-# 4. SEARCH FIELDS  — change LIKE columns in search_*() functions
-# 5. JOIN QUERIES   — change JOIN conditions for related table lookups
-# 6. REPORT QUERIES — change the 5 inquiry functions at the bottom
-#
-# KEY PATTERNS:
-#   - _execute() for INSERT/UPDATE (no return value)
-#   - _fetchall() for SELECT multiple rows (returns list of dicts)
-#   - _fetchone() for SELECT single row (returns dict or None)
-#   - Every query filters with "is_deleted = 0" for soft delete
+# CANDIDATE TASKS & OBJECTIVES (WHAT NEEDS TO BE DONE):
+# 1. DATABASE HELPERS:
+#    - _execute(), _fetchall(), _fetchone() managing active connection lifecycles.
+# 2. VETERINARIAN CRUD:
+#    - get_all_vets(), get_vet_by_id(), add_vet(), update_vet(), delete_vet().
+# 3. PET OWNER CRUD:
+#    - get_all_owners(), get_owner_by_id(), add_owner(), update_owner(), delete_owner().
+# 4. PET PATIENT CRUD:
+#    - get_all_pets() [with owner join], get_pet_by_id(), add_pet(), update_pet(), delete_pet().
+# 5. CONSULTATION RECORDS:
+#    - get_all_consultations() [joined with Pet and Vet], add_consultation(),
+#      update_consultation(), delete_consultation().
+# 6. INQUIRY ENGINE QUERIES:
+#    - inquiry_by_specialization(), inquiry_by_pet_type(), inquiry_by_owner(),
+#      inquiry_by_vet(), inquiry_by_date().
+# ============================================================================
 #   - dict(row) converts sqlite3.Row to Python dict
 # ============================================================================
 

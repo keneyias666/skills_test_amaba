@@ -1,22 +1,22 @@
 # ============================================================================
-# SKILLS TEST CHEAT SHEET — Student ID Database Helper (dbhelper.py)
+# SKILLS TEST QUESTIONNAIRE: STUDENT ID DATABASE HELPER (dbhelper.py)
 # ============================================================================
-# All database operations for the Student ID system.
-# Single table: students (with auto-increment PK + manual student_id)
+# EXAM SCENARIO: Single-table SQLite database operations for student records.
 #
-# WHAT TO CHANGE DURING A SKILLS TEST:
-# 1. DB_NAME        — change "students.db" to your exam's database filename
-# 2. TABLE NAME     — change "students" in every SQL statement
-# 3. COLUMN NAMES   — change student_id/name/course/score/date_added
-# 4. COLUMN TYPES   — INTEGER, TEXT, REAL as needed
-# 5. AUTO-INCREMENT — "id INTEGER PRIMARY KEY AUTOINCREMENT" is auto-generated
-# 6. DATE COLUMN    — date_added is manually set via Python datetime.now()
-# 7. SEARCH COLUMNS — change LIKE columns in search_student()
-# 8. UNIQUE KEY     — student_id is UNIQUE (prevents duplicates)
-#
-# KEY PATTERN: This system has TWO keys:
-#   - id = auto-increment integer (used for edit/delete routes)
-#   - student_id = unique text field (the actual student ID number)
+# CANDIDATE TASKS & OBJECTIVES (WHAT NEEDS TO BE DONE):
+# 1. DATABASE SCHEMA:
+#    - Table: "students"
+#    - Columns: id (INTEGER PK AUTOINCREMENT), student_id (TEXT UNIQUE),
+#      name (TEXT), course (TEXT), score (REAL), date_added (TEXT).
+# 2. CRUD FUNCTIONS TO IMPLEMENT/VERIFY:
+#    - connect(): Establish active SQLite connection.
+#    - create_table(): Execute table DDL with auto-increment and unique constraint.
+#    - add_student(): Insert record with auto-timestamp (YYYY-MM-DD HH:MM:SS).
+#    - get_all_students(): Return all rows ordered descending by id.
+#    - search_student(): Multi-column case-insensitive search (student_id OR name).
+#    - get_student(): Retrieve single record by id.
+#    - update_student(): Update name, course, score by id.
+#    - delete_student(): Delete record by id.
 # ============================================================================
 
 import sqlite3

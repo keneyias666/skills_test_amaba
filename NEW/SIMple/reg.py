@@ -1,27 +1,27 @@
 """
-Minimal Events Registration — Flask + sqlite3. Run: python reg.py
+============================================================================
+SKILLS TEST QUESTIONNAIRE: EVENT REGISTRATION & FINANCIAL SYSTEM (reg.py)
+============================================================================
+EXAM SCENARIO:
+  A conference organization registers participants across various events.
+  Registration fee varies by event, and participants may have a discount rate.
+  Payment mode is constrained to 'Card' or 'Cash'.
 
-# ============================================================================
-# SKILLS TEST CHEAT SHEET — Events Registration System
-# ============================================================================
-# This is a 3-table Flask CRUD app: Events → Participants → Registration.
-#
-# WHAT TO CHANGE DURING A SKILLS TEST:
-# 1. TABLE NAMES   — rename Events/Participants/Registration to match your exam
-# 2. COLUMN NAMES  — rename evCode/evName/evDate/evVenue/evRFee etc. to match
-# 3. DB FILENAME   — change "events_registration.db" to whatever is required
-# 4. SECRET KEY    — change "dev" to something secure if asked
-# 5. PORT          — change 5000 to the required port
-# 6. VALIDATION    — adjust CHECK constraints, payment modes (Card/Cash), etc.
-# 7. FOREIGN KEYS  — adjust which tables reference which
-# 8. SEED DATA     — add INSERT statements if initial data is required
-# 9. TEMPLATE NAME — if exam wants different HTML filenames, update render_template()
-# 10. REPORT LOGIC — the aggregation query at the bottom computes totals & discounts
-#
-# PATTERN: Every table follows the same CRUD pattern:
-#   - INSERT (add), SELECT (list/search), UPDATE (edit), DELETE (remove)
-#   - Each route reads form data → validates → executes SQL → flashes message
-# ============================================================================
+CANDIDATE TASKS & OBJECTIVES (WHAT NEEDS TO BE DONE):
+1. RELATIONAL DATABASE SETUP (init_db):
+   - Table 1 (Events): evCode (PK), evName, evDate, evVenue, evRFee.
+   - Table 2 (Participants): partID (PK), evCode (FK), partfName, partlName, partDRate.
+   - Table 3 (Registration): regCode (PK), partID (FK), regDate, regFPaid,
+     regPMode CHECK IN ('Card', 'Cash').
+   - Enable PRAGMA foreign_keys = ON;
+2. ROUTING & CONTROLLERS:
+   - Event creation, listing, updating, and safe deletion.
+   - Participant registration with discount calculation:
+     regFPaid = evRFee * (1 - partDRate / 100)
+   - Atomic recording of Participant and Registration ledger row.
+3. FINANCIAL REPORTING:
+   - 3-table JOIN query displaying all transaction ledgers and revenue sum.
+============================================================================
 """
 import os
 import sqlite3

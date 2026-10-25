@@ -1,22 +1,21 @@
 # ============================================================================
-# SKILLS TEST CHEAT SHEET — Election Database Helper (dbhelper.py)
+# SKILLS TEST QUESTIONNAIRE: ELECTION DATABASE HELPER (dbhelper.py)
 # ============================================================================
-# All database operations for the Election/Voting system.
-# Tables: Positions, Candidates, Voters, Votes
+# EXAM SCENARIO: Database layer for multi-table voting system (SQLite3).
 #
-# WHAT TO CHANGE DURING A SKILLS TEST:
-# 1. DB_NAME       — change "Election.db" to your exam's database filename
-# 2. TABLE NAMES   — change Positions/Candidates/Voters/Votes in all SQL
-# 3. COLUMN NAMES  — change posID/posName/candFName/voterID etc. in all SQL
-# 4. STATUS VALUES — "active"/"inactive" can be changed
-# 5. VOTE FLAG     — "y"/"n" for voted column can be changed
-# 6. RESULTS LOGIC — percentage calculation and winner selection
-#
-# KEY PATTERNS:
-#   - Every function: connect() → execute SQL → commit → close
-#   - Row factory = sqlite3.Row (access columns by name, e.g., row["posID"])
-#   - Foreign keys ON for referential integrity
-#   - Soft delete = UPDATE SET status = 'inactive' (not DELETE)
+# CANDIDATE TASKS & OBJECTIVES (WHAT NEEDS TO BE DONE):
+# 1. DATABASE CONNECTION:
+#    - PRAGMA foreign_keys = ON; Row factory = sqlite3.Row.
+# 2. POSITION & CANDIDATE CRUD:
+#    - add_position(), update_position(), deactivate_position() (soft delete).
+#    - add_candidate(), update_candidate(), deactivate_candidate().
+# 3. VOTER MANAGEMENT & AUTHENTICATION:
+#    - add_voter(), authenticate_voter(voter_id, password).
+# 4. DIGITAL BALLOT TRANSACTION:
+#    - record_vote(): Insert vote rows into Votes and update Voters.hasVoted = 1.
+# 5. TABULATION & PERCENTAGES:
+#    - get_results_by_position(): Sum votes and compute candidate percentages.
+#    - get_winners(): Proclaim top N candidates matching posSeats.
 # ============================================================================
 
 import os

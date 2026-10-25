@@ -1,20 +1,21 @@
 # ============================================================================
-# SKILLS TEST CHEAT SHEET — Pet Clinic Database Setup (database.py)
+# SKILLS TEST QUESTIONNAIRE: CLINICAL DATABASE ARCHITECTURE (database.py)
 # ============================================================================
-# This file creates the database and all 4 tables.
-# Tables: PetOwner, Veterinarian, Pet, Consultation
+# EXAM SCENARIO: Database schema initialization and soft-deletion architecture.
 #
-# WHAT TO CHANGE DURING A SKILLS TEST:
-# 1. DB_PATH       — change "clinic.db" to your exam's database filename
-# 2. TABLE NAMES   — change PetOwner/Veterinarian/Pet/Consultation
-# 3. COLUMN NAMES  — change petOwnerID/vetFName/petName etc.
-# 4. COLUMN TYPES  — TEXT, INTEGER, REAL as needed
-# 5. FOREIGN KEYS  — adjust REFERENCES between tables
-# 6. is_deleted    — soft-delete flag (0=active, 1=deleted)
-#                    Remove if exam uses hard delete (DELETE FROM)
-#
-# KEY PATTERN: Every table has "is_deleted INTEGER NOT NULL DEFAULT 0"
-# for LOGICAL (soft) DELETE. Queries filter with "WHERE is_deleted = 0".
+# CANDIDATE TASKS & OBJECTIVES (WHAT NEEDS TO BE DONE):
+# 1. 4-TABLE CLINICAL SCHEMA:
+#    - PetOwner: petOwnerID (PK), ownerFName, ownerLName, ownerAddress,
+#      ownerContact, is_deleted (DEFAULT 0).
+#    - Veterinarian: vetID (PK), vetFName, vetLName, vetContact,
+#      specialization, is_deleted (DEFAULT 0).
+#    - Pet: petID (PK), petName, petType, petBreed, petBDate,
+#      petOwnerID (FK -> PetOwner), is_deleted (DEFAULT 0).
+#    - Consultation: consultID (PK AUTOINCREMENT), petID (FK -> Pet),
+#      vetID (FK -> Veterinarian), consultDate, consultTime, diagnosis,
+#      treatment, is_deleted (DEFAULT 0).
+# 2. LOGICAL (SOFT) DELETION:
+#    - All entities maintain history using "is_deleted" flags.
 # ============================================================================
 
 import sqlite3
