@@ -297,6 +297,14 @@ def menu():
     return render_template("index.html")
 
 
+# ============================================================================
+# ### SKILLS TEST TASK 2.1: LIST ALL DEPARTMENTS
+# OBJECTIVE: Fetch all departments sorted numerically by depCode and render
+# the departments list template.
+# WHAT NEEDS TO BE DONE:
+#   1. Query: SELECT depCode, depName, depHead, depTelNo FROM Departments ORDER BY depCode
+#   2. Pass rows into render_template("departments.html", departments=rows)
+# ============================================================================
 @app.route("/departments")
 def departments():
     rows = get_db().execute(
@@ -314,6 +322,17 @@ def render_department_form(department=None):
     )
 
 
+# ============================================================================
+# ### SKILLS TEST TASK 2.2: ADD NEW DEPARTMENT
+# OBJECTIVE: Validate input fields, verify code uniqueness, and insert a new department.
+# WHAT NEEDS TO BE DONE:
+#   1. GET: Render empty department form with an auto-suggested next code.
+#   2. POST:
+#      - Extract: depCode (integer), depName (text), depHead (text), depTelNo (text).
+#      - Validation: Ensure all fields are filled; check if depCode already exists.
+#      - Query: INSERT INTO Departments (depCode, depName, depHead, depTelNo) VALUES (?, ?, ?, ?)
+#      - Flash success message and redirect to /departments.
+# ============================================================================
 @app.route("/departments/add", methods=["GET", "POST"])
 def add_department():
     if request.method == "POST":
@@ -346,6 +365,15 @@ def add_department():
     return render_department_form()
 
 
+# ============================================================================
+# ### SKILLS TEST TASK 2.3: EDIT DEPARTMENT
+# OBJECTIVE: Fetch existing department by code, display in form, and update on POST.
+# WHAT NEEDS TO BE DONE:
+#   1. Lookup department by depCode. If None, flash error and redirect to /departments.
+#   2. POST: Validate updated depName, depHead, depTelNo.
+#   3. Query: UPDATE Departments SET depName = ?, depHead = ?, depTelNo = ? WHERE depCode = ?
+#   4. Commit changes, flash "Department updated.", and redirect to /departments.
+# ============================================================================
 @app.route("/departments/<int:dep_code>/edit", methods=["GET", "POST"])
 def edit_department(dep_code):
     db = get_db()
@@ -377,6 +405,17 @@ def edit_department(dep_code):
     return render_department_form(department)
 
 
+# ============================================================================
+# ### SKILLS TEST TASK 2.4: DELETE DEPARTMENT (SAFE REMOVAL GUARD)
+# OBJECTIVE: Prevent orphan employee records by checking if employees exist
+# in the department before deleting.
+# WHAT NEEDS TO BE DONE:
+#   1. Check if department exists. If not, redirect with error.
+#   2. Check: SELECT 1 FROM Employees WHERE deptCode = ?
+#   3. If employees found, BLOCK deletion: flash error and redirect.
+#   4. Otherwise, execute: DELETE FROM Departments WHERE depCode = ?
+#   5. Commit transaction, flash success, and redirect to /departments.
+# ============================================================================
 @app.route("/departments/<int:dep_code>/delete", methods=["POST"])
 def delete_department(dep_code):
     db = get_db()
@@ -408,6 +447,18 @@ def delete_department(dep_code):
     return redirect(url_for("departments"))
 
 
+# ============================================================================
+# ### SKILLS TEST TASK 3.1: LIST ALL EMPLOYEES (RELATIONAL JOIN)
+# OBJECTIVE: Retrieve all employees with their human-readable department name
+# via an INNER JOIN on Departments.
+# WHAT NEEDS TO BE DONE:
+#   1. Query:
+#      SELECT e.empID, e.deptCode, e.empName, e.empLName, e.empRateHr, d.depName
+#      FROM Employees e
+#      JOIN Departments d ON d.depCode = e.deptCode
+#      ORDER BY e.empID
+#   2. Pass rows into render_template("employees.html", employees=rows)
+# ============================================================================
 @app.route("/employees")
 def employees():
     rows = get_db().execute(
@@ -437,6 +488,20 @@ def render_employee_form(employee=None):
     )
 
 
+# ============================================================================
+# ### SKILLS TEST TASK 3.2: ADD NEW EMPLOYEE
+# OBJECTIVE: Validate employee inputs, verify unique empID, check valid deptCode,
+# and insert new record into Employees.
+# WHAT NEEDS TO BE DONE:
+#   1. Check that at least one department exists.
+#   2. POST:
+#      - Extract: empID, deptCode, empLName, empName, empRateHr.
+#      - Validate: empRateHr must be non-negative float.
+#      - Check duplicate: SELECT 1 FROM Employees WHERE empID = ?
+#      - Check foreign key: SELECT 1 FROM Departments WHERE depCode = ?
+#      - Query: INSERT INTO Employees (empID, deptCode, empName, empLName, empRateHr) VALUES (?, ?, ?, ?, ?)
+#      - Flash success and redirect to /employees.
+# ============================================================================
 @app.route("/employees/add", methods=["GET", "POST"])
 def add_employee():
     if not department_choices():
@@ -479,6 +544,16 @@ def add_employee():
     return render_employee_form()
 
 
+# ============================================================================
+# ### SKILLS TEST TASK 3.3: EDIT EMPLOYEE RECORD
+# OBJECTIVE: Modify department, name, or hourly rate for an existing employee.
+# WHAT NEEDS TO BE DONE:
+#   1. Lookup employee by empID. If not found, flash error and redirect.
+#   2. POST: Validate updated fields and deptCode validity.
+#   3. Query:
+#      UPDATE Employees SET deptCode = ?, empName = ?, empLName = ?, empRateHr = ? WHERE empID = ?
+#   4. Commit changes, flash success, and redirect to /employees.
+# ============================================================================
 @app.route("/employees/<int:emp_id>/edit", methods=["GET", "POST"])
 def edit_employee(emp_id):
     db = get_db()
@@ -526,6 +601,15 @@ def edit_employee(emp_id):
     return render_employee_form(employee)
 
 
+# ============================================================================
+# ### SKILLS TEST TASK 3.4: DELETE EMPLOYEE (ATTENDANCE AUDIT GUARD)
+# OBJECTIVE: Prevent deleting an employee who has existing attendance logs.
+# WHAT NEEDS TO BE DONE:
+#   1. Check if employee has attendance records: SELECT 1 FROM Attendance WHERE empID = ?
+#   2. If records exist, flash error and block deletion.
+#   3. Otherwise: DELETE FROM Employees WHERE empID = ?
+#   4. Commit transaction and redirect to /employees.
+# ============================================================================
 @app.route("/employees/<int:emp_id>/delete", methods=["POST"])
 def delete_employee(emp_id):
     db = get_db()
@@ -557,6 +641,13 @@ def delete_employee(emp_id):
     return redirect(url_for("employees"))
 
 
+# ============================================================================
+# ### SKILLS TEST TASK 4.1: LIST ALL ATTENDANCE LOGS
+# OBJECTIVE: Retrieve all recorded time logs ordered by record number attRN.
+# WHAT NEEDS TO BE DONE:
+#   1. Query: SELECT attRN, empID, attDate, attTimeIn, attTimeOut, attStat FROM Attendance ORDER BY attRN
+#   2. Render attendance.html passing the list of records.
+# ============================================================================
 @app.route("/attendance")
 def attendance():
     rows = get_db().execute(
@@ -579,6 +670,19 @@ def employee_choices():
     ).fetchall()
 
 
+# ============================================================================
+# ### SKILLS TEST TASK 4.2: RECORD DAILY TIME RECORD (TIME IN / TIME OUT)
+# OBJECTIVE: Validate employee selection, date, and clock times.
+# Ensure Time Out is strictly after Time In.
+# WHAT NEEDS TO BE DONE:
+#   1. Verify employee list is not empty.
+#   2. POST:
+#      - Extract: empID, attDate (YYYY-MM-DD), attTimeIn (HH:MM), attTimeOut (HH:MM).
+#      - Call build_attendance_times() to parse and ensure end > start.
+#      - Validate that chosen empID exists.
+#      - Query: INSERT INTO Attendance (empID, attDate, attTimeIn, attTimeOut, attStat) VALUES (?, ?, ?, ?, 'Not')
+#      - Commit, flash "Attendance recorded.", and redirect to /attendance.
+# ============================================================================
 @app.route("/attendance/record", methods=["GET", "POST"])
 def record_attendance():
     if not employee_choices():
@@ -616,6 +720,16 @@ def record_attendance():
     return render_template("attendance_form.html", employees=employee_choices())
 
 
+# ============================================================================
+# ### SKILLS TEST TASK 4.3: CANCEL ATTENDANCE RECORD (SOFT STATUS UPDATE)
+# OBJECTIVE: Implement soft-status cancellation to preserve audit trails.
+# WHAT NEEDS TO BE DONE:
+#   1. Query: UPDATE Attendance SET attStat = 'Cancelled' WHERE attRN = ? AND attStat = 'Not'
+#   2. Check rowcount:
+#      - If changed > 0: flash "Attendance record cancelled."
+#      - If changed == 0: inspect row to see if already cancelled or non-existent, flash appropriate error.
+#   3. Commit and redirect to /attendance.
+# ============================================================================
 @app.route("/attendance/<int:att_rn>/cancel", methods=["POST"])
 def cancel_attendance(att_rn):
     db = get_db()
@@ -658,6 +772,18 @@ def active_attendance(where_sql, params):
     return with_hours(rows)
 
 
+# ============================================================================
+# ### SKILLS TEST TASK 5.1: EMPLOYEE ATTENDANCE & PAYROLL MONITORING
+# OBJECTIVE: Look up an employee, fetch valid attendance rows (attStat = 'Not'),
+# calculate total hours worked, and compute gross salary:
+#   Gross Salary = empRateHr * total_hours
+# WHAT NEEDS TO BE DONE:
+#   1. Extract ?empID query parameter.
+#   2. Query employee details with department join.
+#   3. Query active attendance rows and compute elapsed hours per shift.
+#   4. Compute cumulative total hours and gross salary.
+#   5. Render monitor_employee.html with report dictionary.
+# ============================================================================
 @app.route("/monitoring/employee")
 def monitor_employee():
     report = None
@@ -694,6 +820,19 @@ def monitor_employee():
     )
 
 
+# ============================================================================
+# ### SKILLS TEST TASK 5.2: DATE-RANGE ATTENDANCE AUDIT MONITORING
+# OBJECTIVE: Filter active attendance records between two inclusive dates
+# and compute total collective working hours.
+# WHAT NEEDS TO BE DONE:
+#   1. Extract ?date_from and ?date_to query parameters.
+#   2. Validate dates: ensure start_date <= end_date.
+#   3. Query:
+#      SELECT attRN, empID, attDate, attTimeIn, attTimeOut FROM Attendance
+#      WHERE attStat = 'Not' AND attDate >= ? AND attDate <= ?
+#   4. Compute hours for each shift and sum total hours rendered.
+#   5. Render monitor_range.html with report dictionary.
+# ============================================================================
 @app.route("/monitoring/range")
 def monitor_range():
     report = None
